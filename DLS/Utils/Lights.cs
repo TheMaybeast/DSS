@@ -14,13 +14,15 @@ namespace DLS.Utils
             {
                 case LightStage.Off:
                     activeVeh.Vehicle.IsSirenOn = true;
+                    activeVeh.Vehicle.IsSirenSilent = true;
                     activeVeh.SirenStage = SirenStage.Off;
                     if (activeVeh.AuxOn)
                     {
                         Sound.ClearTempSoundID(activeVeh.AuxID);
                         activeVeh.AuxOn = false;
                     }                    
-                    activeVeh.TAStage = TAStage.Off;
+                    if (activeVeh.AutoStartedTA)
+                        activeVeh.TAStage = TAStage.Off;                    
                     //activeVeh.SBOn = false;
                     activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(activeVeh.Vehicle);
                     Sirens.Update(activeVeh);
@@ -110,7 +112,8 @@ namespace DLS.Utils
                                     activeVeh.TAStage = TAStage.Warn;
                                     break;
                             }
-                        }
+                            activeVeh.AutoStartedTA = true;
+                        }                        
                     }
                     if (disableStages.Contains(activeVeh.LightStage))
                         activeVeh.TAStage = TAStage.Off;
@@ -1040,57 +1043,10 @@ namespace DLS.Utils
         }
         public static void MoveUpStageTA(ActiveVehicle activeVeh)
         {
-            if (!activeVeh.Vehicle.GetDLS().TrafficAdvisory.DivergeOnly.ToBoolean())
-            {
-                switch (activeVeh.TAStage)
-                {
-                    case TAStage.Off:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Left;
-                        UpdateTA(true, activeVeh);
-                        break;
-                    case TAStage.Left:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Diverge;
-                        UpdateTA(true, activeVeh);
-                        break;
-                    case TAStage.Diverge:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Right;
-                        UpdateTA(true, activeVeh);
-                        break;
-                    case TAStage.Right:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Warn;
-                        UpdateTA(true, activeVeh);
-                        break;
-                    case TAStage.Warn:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Off;
-                        UpdateTA(true, activeVeh);
-                        break;
-                }
-            }
-            else
-            {
-                switch (activeVeh.TAStage)
-                {
-                    case TAStage.Off:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Diverge;
-                        if (activeVeh.LightStage == LightStage.Off || activeVeh.LightStage == LightStage.Empty)
-                            activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(activeVeh.Vehicle);
-                        UpdateTA(true, activeVeh);
-                        break;
-                    case TAStage.Diverge:
-                        NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
-                        activeVeh.TAStage = TAStage.Off;
-                        if (activeVeh.LightStage == LightStage.Off || activeVeh.LightStage == LightStage.Empty)
-                            activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(activeVeh.Vehicle);
-                        UpdateTA(true, activeVeh);
-                        break;
-                }
-            }
+            NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
+            activeVeh.TAStage = activeVeh.Vehicle.GetDLS().AvailableTAStages.Next(activeVeh.TAStage);
+            activeVeh.AutoStartedTA = false;
+            Update(activeVeh);
         }
         public static void UpdateIndicator(ActiveVehicle activeVeh)
         {

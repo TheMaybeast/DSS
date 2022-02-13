@@ -45,7 +45,7 @@ namespace DLS.Utils
         {
             if (Settings.SET_LOGTOCONSOLE) Game.LogTrivial(log);
 
-            string path = @"Plugins/DLSv2.log";
+            string path = @"Plugins/DLS.log";
             using (StreamWriter writer = new StreamWriter(path, true))
             {
                 writer.WriteLine("[" + DateTime.Now.ToString() + "] " + log);

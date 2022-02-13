@@ -44,6 +44,23 @@ namespace DLS.Utils
                         if (dlsModel.Sirens.Stage3Setting != null)
                             dlsModel.AvailableLightStages.Add(LightStage.Three);
                     }
+
+                    if (dlsModel.TrafficAdvisory.Type.ToLower() != "off")
+                    {
+                        if (dlsModel.TrafficAdvisory.DivergeOnly.ToBoolean())
+                        {
+                            dlsModel.AvailableTAStages.Add(TAStage.Off);
+                            dlsModel.AvailableTAStages.Add(TAStage.Diverge);
+                        }
+                        else
+                        {
+                            dlsModel.AvailableTAStages.Add(TAStage.Off);
+                            dlsModel.AvailableTAStages.Add(TAStage.Left);
+                            dlsModel.AvailableTAStages.Add(TAStage.Diverge);
+                            dlsModel.AvailableTAStages.Add(TAStage.Right);
+                            dlsModel.AvailableTAStages.Add(TAStage.Warn);                            
+                        }
+                    }
                     
                     if (dlsModel.SpecialModes.WailSetup.WailSetupEnabled.ToLower() == "true")
                     {
@@ -219,6 +236,7 @@ namespace DLS.Utils
 
         public static EmergencyLighting GetEL(Vehicle veh, ActiveVehicle activeVeh = null)
         {
+            //Game.LogTrivial((new System.Diagnostics.StackTrace()).GetFrame(1).GetMethod().Name);
             DLSModel dlsModel = veh.GetDLS();
             if (activeVeh == null)
                 activeVeh = veh.GetActiveVehicle();
@@ -231,6 +249,13 @@ namespace DLS.Utils
 #if DEBUG
                 ("Allocated \"" + name + "\" (" + key + ") for " + veh.Handle + " from Used Pool").ToLog();
 #endif
+            }         
+            else if (EmergencyLighting.GetByName(name) != null)
+            {
+                eL = EmergencyLighting.GetByName(name);
+#if DEBUG
+                ("Allocated \"" + name + "\" (" + key + ") for " + veh.Handle + " from Game Memory").ToLog();
+#endif
             }
             else if (Entrypoint.AvailablePool.Count > 0)
             {
@@ -238,27 +263,18 @@ namespace DLS.Utils
                 Entrypoint.AvailablePool.Remove(eL);
 #if DEBUG
                 ("Removed \"" + eL.Name + "\" from Available Pool").ToLog();
-                ("Allocated \"" + name + "\" (" + key + ") for " + veh.Handle + " from Available Pool").ToLog();
+                ("Allocated \"" + eL.Name + "\" for " + veh.Handle + " as \"" + name + "\" (" + key + ")").ToLog();
 #endif
+                eL.Name = name;
             }
             else
             {
-                if (EmergencyLighting.GetByName(name) == null)
-                {
-                    Model model = new Model("police");
-                    eL = model.EmergencyLighting.Clone();
-                    eL.Name = name;
+                Model model = new Model("police");
+                eL = model.EmergencyLighting.Clone();
+                eL.Name = name;
 #if DEBUG
-                    ("Created \"" + name + "\" (" + key + ") for " + veh.Handle).ToLog();
+                ("Created \"" + name + "\" (" + key + ") for " + veh.Handle).ToLog();
 #endif
-                }
-                else
-                {
-                    eL = EmergencyLighting.GetByName(name);
-#if DEBUG
-                    ("Allocated \"" + name + "\" (" + key + ") for " + veh.Handle + " from Game Memory").ToLog();
-#endif
-                }
             }
             if (activeVeh.LightStage != LightStage.Off && activeVeh.LightStage != LightStage.Empty)
             {

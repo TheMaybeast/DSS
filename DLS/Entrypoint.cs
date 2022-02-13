@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-[assembly: Plugin("Dynamic Lighting System v2", Description = "Better ELS but for default lighting", Author = "TheMaybeast", PrefersSingleInstance = true, ShouldTickInPauseMenu = true, SupportUrl = "https://discord.gg/HUcXxkq")]
+[assembly: Plugin("Dynamic Lighting System", Description = "Better ELS but for default lighting", Author = "TheMaybeast", PrefersSingleInstance = true, ShouldTickInPauseMenu = true, SupportUrl = "https://discord.gg/HUcXxkq")]
 namespace DLS
 {
     internal class Entrypoint
@@ -71,8 +71,8 @@ namespace DLS
             //Creates special modes managers
             "Loading: DLS - Special Modes Managers".ToLog();
             if(Settings.SET_AILC)
-                GameFiber.StartNew(delegate { SpecialModesManagerV2.ProcessAI(); }, "DLS - Special Modes AI Manager");
-            GameFiber.StartNew(delegate { SpecialModesManagerV2.ProcessPlayer(); }, "DLS - Special Modes AI Manager");
+                GameFiber.StartNew(delegate { SpecialModesManager.ProcessAI(); }, "DLS - Special Modes AI Manager");
+            GameFiber.StartNew(delegate { SpecialModesManager.ProcessPlayer(); }, "DLS - Special Modes Player Manager");
             "Loaded: DLS - Special Modes Managers".ToLog();
 
             //Creates cleanup manager
@@ -102,6 +102,7 @@ namespace DLS
                 {
                     if (aVeh.Vehicle)
                     {
+                        aVeh.Vehicle.IsSirenOn = false;
                         aVeh.Vehicle.EmergencyLightingOverride = aVeh.DefaultEL;
                         aVeh.Vehicle.IsSirenSilent = aVeh.IsSirenSilent;
                         aVeh.Vehicle.IndicatorLightsStatus = VehicleIndicatorLightsStatus.Off;
@@ -127,7 +128,6 @@ namespace DLS
                 Game.LogTrivial("Light: " + aVeh.LightStage.ToString());
                 Game.LogTrivial("TAStage: " + aVeh.TAStage.ToString());
                 Game.LogTrivial("SBOn: " + aVeh.SBOn.ToString());
-                Game.LogTrivial("TAstage: " + aVeh.TAgroup.TaPatterns[aVeh.TApatternCurrentIndex].Name);
                 Game.LogTrivial("ELName: " + veh.EmergencyLightingOverride.Name);
             }
         }

@@ -69,6 +69,7 @@ namespace DLS
         public LightStage WailBackupLightStage { get; set; }
         public int? AirManuState { get; set; } = null;
         public int? AirManuID { get; set; } = null;
+        public bool AutoStartedTA { get; set; } = false;
     }
 
     public enum LightStage

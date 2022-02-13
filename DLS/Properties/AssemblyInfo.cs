@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("DLSv2 - Dynamic Lighting System v2")]
+[assembly: AssemblyTitle("DLS - Dynamic Lighting System")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DLSv2")]
+[assembly: AssemblyProduct("DLS")]
 [assembly: AssemblyCopyright("Copyright © 2022")]
 [assembly: AssemblyTrademark("TheMaybeast")]
 [assembly: AssemblyCulture("")]

@@ -4,7 +4,7 @@ namespace DLS.Utils
 {
     class Settings
     {
-        internal static InitializationFile INI = new InitializationFile(@"Plugins\DLSv2.ini");
+        internal static InitializationFile INI = new InitializationFile(@"Plugins\DLS.ini");
 
         // Controls
         public static int CON_INDLEFT { get; } = INI.ReadInt32("Controls", "CON_INDLEFT", 84);
@@ -34,10 +34,10 @@ namespace DLS.Utils
         {
             if (INI.Exists())
             {
-                "Loaded: DLSv2.ini".ToLog();
+                "Loaded: DLS.ini".ToLog();
                 return;
             }
-            "ERROR: DLSv2.ini was not found!".ToLog();
+            "ERROR: DLS.ini was not found!".ToLog();
         }
     }
 }

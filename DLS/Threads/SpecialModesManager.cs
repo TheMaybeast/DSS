@@ -6,6 +6,69 @@ namespace DLS.Threads
 {
     class SpecialModesManager
     {
+        public static void ProcessPlayer()
+        {
+            uint lastProcessTime = Game.GameTime;
+            int timeBetweenChecks = 250;
+            int yieldAfterChecks = 50;
+
+            while (true)
+            {
+                int checksDone = 0;
+
+                foreach (ActiveVehicle activeVeh in Entrypoint.activeVehicles)
+                {
+                    Vehicle veh = activeVeh.Vehicle;
+                    if (veh && veh.IsPlayerVehicle())
+                    {
+                        DLSModel dlsModel;
+                        if (veh)
+                            dlsModel = veh.GetDLS();
+                        else
+                            dlsModel = null;
+                        if (activeVeh.LightStage != LightStage.Off && !veh.HasDriver && !activeVeh.IsOOV)
+                        {
+                            if (!veh.IsEngineOn)
+                                veh.IsEngineOn = true;
+                            activeVeh.OOVBackupLightStage = activeVeh.LightStage;
+                            activeVeh.IsOOV = true;
+                            activeVeh.LightStage = dlsModel.OOVLightStage;
+                            Lights.Update(activeVeh);
+                        }
+                        else if (veh.HasDriver && activeVeh.IsOOV)
+                        {
+                            activeVeh.LightStage = activeVeh.OOVBackupLightStage;
+                            activeVeh.IsOOV = false;
+                            Lights.Update(activeVeh);
+                        }
+                        else if (dlsModel.WailSetupEnabled)
+                        {
+                            if (!activeVeh.IsWailing && activeVeh.SirenStage == dlsModel.WailSirenStage)
+                            {
+                                activeVeh.WailBackupLightStage = activeVeh.LightStage;
+                                activeVeh.IsWailing = true;
+                                activeVeh.LightStage = dlsModel.WailLightStage;
+                                Lights.Update(activeVeh);
+                            }
+                            else if (activeVeh.IsWailing && activeVeh.SirenStage != dlsModel.WailSirenStage)
+                            {
+                                activeVeh.IsWailing = false;
+                                activeVeh.LightStage = activeVeh.WailBackupLightStage;
+                                Lights.Update(activeVeh);
+                            }   
+                        }
+                    }
+                }
+
+                checksDone++;
+                if (checksDone % yieldAfterChecks == 0)
+                {
+                    GameFiber.Yield();
+                }
+                GameFiber.Sleep((int)Math.Max(timeBetweenChecks, Game.GameTime - lastProcessTime));
+                lastProcessTime = Game.GameTime;
+            }
+        }
         public static void ProcessAI()
         {
             uint lastProcessTime = Game.GameTime;
@@ -16,99 +79,60 @@ namespace DLS.Threads
             {
                 int checksDone = 0;
 
-                if (Settings.SET_AILC)
+                Vehicle[] allWorldVehicles = World.GetAllVehicles();
+                foreach (Vehicle veh in allWorldVehicles)
                 {
-                    Vehicle[] allWorldVehicles = World.GetAllVehicles();
-                    foreach (Vehicle veh in allWorldVehicles)
+                    if (veh && veh.HasSiren && veh.GetDLS() != null && !veh.IsPlayerVehicle())
                     {
-                        if (veh && veh.HasSiren && veh.GetDLS() != null && !veh.IsPlayerVehicle())
+                        ActiveVehicle activeVeh = veh.GetActiveVehicle();
+                        DLSModel dlsModel;
+                        if (veh)
+                            dlsModel = veh.GetDLS();
+                        else
+                            dlsModel = null;
+                        if (veh.HasDriver && activeVeh.LightStage != LightStage.Three)
                         {
-                            if (veh.GetActiveVehicle() == null)
+                            if (dlsModel.DoesVehicleHaveLightStage(LightStage.Three) && activeVeh.LightStage != LightStage.Three)
                             {
-                                if (veh.IsSirenOn)
-                                {
-                                    if (!veh.IsSirenSilent)
-                                        Entrypoint.activeVehicles.Add(new ActiveVehicle(veh, false, LightStage.Three, SirenStage.One));
-                                    else
-                                        Entrypoint.activeVehicles.Add(new ActiveVehicle(veh, false, LightStage.Three, SirenStage.Off));
-                                }
-                                else
-                                    Entrypoint.activeVehicles.Add(new ActiveVehicle(veh, false));
-                            }
-                            ActiveVehicle activeVeh = veh.GetActiveVehicle();
-                            DLSModel dlsModel;
-                            if (veh)
-                                dlsModel = veh.GetDLS();
-                            else
-                                dlsModel = null;
-                            if (veh.IsSirenOn && veh.IsSirenSilent == false && activeVeh.SirenStage == SirenStage.Off)
-                                activeVeh.SirenStage = SirenStage.One;
-                            if (veh.IsSirenOn && activeVeh.LightStage == LightStage.Off)
                                 activeVeh.LightStage = LightStage.Three;
-                            if (dlsModel != null && dlsModel.SpecialModes.PresetSirenOnLeaveVehicle != "none"
-                                    && veh.IsSirenOn)
-                            {
-                                if (!veh.HasDriver)
-                                {
-                                    if (!veh.IsEngineOn)
-                                        veh.IsEngineOn = true;
-                                    string presetSiren = dlsModel.SpecialModes.PresetSirenOnLeaveVehicle;
-                                    switch (presetSiren)
-                                    {
-                                        case "stage1":
-                                            if (activeVeh.LightStage != LightStage.One)
-                                            {
-                                                activeVeh.LightStage = LightStage.One;
-                                                Lights.Update(activeVeh);
-                                            }
-                                            break;
-                                        case "stage2":
-                                            if (activeVeh.LightStage != LightStage.Two)
-                                            {
-                                                activeVeh.LightStage = LightStage.Two;
-                                                Lights.Update(activeVeh);
-                                            }
-                                            break;
-                                        case "stage3":
-                                            if (activeVeh.LightStage != LightStage.Three)
-                                            {
-                                                activeVeh.LightStage = LightStage.Three;
-                                                Lights.Update(activeVeh);
-                                            }
-                                            break;
-                                        case "custom1":
-                                            if (activeVeh.LightStage != LightStage.CustomOne)
-                                            {
-                                                activeVeh.LightStage = LightStage.CustomOne;
-                                                Lights.Update(activeVeh);
-                                            }
-                                            break;
-                                        case "custom2":
-                                            if (activeVeh.LightStage != LightStage.CustomTwo)
-                                            {
-                                                activeVeh.LightStage = LightStage.CustomTwo;
-                                                Lights.Update(activeVeh);
-                                            }
-                                            break;
-                                    }
-                                }
-
-                                if (dlsModel.DoesVehicleHaveLightStage(LightStage.Three)
-                                    && veh.HasDriver
-                                    && veh.EmergencyLighting.Name != veh.Model.Name + " | " + activeVeh.LightStage.ToString() + " | " + activeVeh.TAStage.ToString() + " | " + activeVeh.SBOn.ToString())
-                                {
-                                    activeVeh.LightStage = LightStage.Three;
-                                    Lights.Update(activeVeh);
-                                }
+                                activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(veh);
                             }
+                            else if (dlsModel.DoesVehicleHaveLightStage(LightStage.Three) && activeVeh.LightStage != LightStage.Two)
+                            {
+                                activeVeh.LightStage = LightStage.Two;
+                                activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(veh);
+                            }
+                            else if (dlsModel.DoesVehicleHaveLightStage(LightStage.Three) && activeVeh.LightStage != LightStage.One)
+                            {
+                                activeVeh.LightStage = LightStage.One;
+                                activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(veh);
+                            }
+                            else if (dlsModel.DoesVehicleHaveLightStage(LightStage.Three) && activeVeh.LightStage != LightStage.CustomTwo)
+                            {
+                                activeVeh.LightStage = LightStage.CustomTwo;
+                                activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(veh);
+                            }
+                            else if (dlsModel.DoesVehicleHaveLightStage(LightStage.Three) && activeVeh.LightStage != LightStage.CustomOne)
+                            {
+                                activeVeh.LightStage = LightStage.CustomOne;
+                                activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(veh);
+                            }
+
+                        }
+                        else if (!veh.HasDriver && activeVeh.LightStage != dlsModel.OOVLightStage)
+                        {
+                            if (!veh.IsEngineOn)
+                                veh.IsEngineOn = true;
+                            activeVeh.LightStage = dlsModel.OOVLightStage;
+                            activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(veh);
                         }
                     }
+                }
 
-                    checksDone++;
-                    if (checksDone % yieldAfterChecks == 0)
-                    {
-                        GameFiber.Yield();
-                    }
+                checksDone++;
+                if (checksDone % yieldAfterChecks == 0)
+                {
+                    GameFiber.Yield();
                 }
                 GameFiber.Sleep((int)Math.Max(timeBetweenChecks, Game.GameTime - lastProcessTime));
                 lastProcessTime = Game.GameTime;

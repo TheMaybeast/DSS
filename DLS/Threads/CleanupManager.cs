@@ -34,10 +34,11 @@ namespace DLS.Threads
                 {
                     if (!UsedHashes.Contains(hash))
                     {
+                        string guidName = Guid.NewGuid().ToString();
 #if DEBUG
-                        ("Moving " + hash + " to Available Pool").ToLog();
+                        ("Moving " + hash + " to Available Pool as "+guidName).ToLog();
 #endif
-                        //Entrypoint.UsedPool[hash].Name = hash.ToString();
+                        Entrypoint.UsedPool[hash].Name = guidName;
                         Entrypoint.AvailablePool.Add(Entrypoint.UsedPool[hash]);
                         Entrypoint.UsedPool.Remove(hash);
                     }

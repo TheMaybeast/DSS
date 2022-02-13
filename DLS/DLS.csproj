@@ -72,7 +72,6 @@
     <Compile Include="TextureHash.cs" />
     <Compile Include="Threads\PlayerController.cs" />
     <Compile Include="DLSModel.cs" />
-    <Compile Include="Threads\SpecialModesManagerV2.cs" />
     <Compile Include="Threads\SpecialModesManager.cs" />
     <Compile Include="TrafficAdvisory.cs" />
     <Compile Include="Utils\Controls.cs" />

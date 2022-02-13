@@ -96,7 +96,7 @@ namespace DLS.Threads
                                 if(activeVehicle.TAType != "off" && 
                                     Controls.IsDisabledControlJustReleased(0, (GameControl)Settings.CON_TA) && isDLS)
                                 {
-                                    if (activeVehicle.LightStage == LightStage.Off)
+                                    /*if (activeVehicle.LightStage == LightStage.Off)
                                     {
                                         activeVehicle.LightStage = LightStage.Empty;
                                         veh.ShouldVehiclesYieldToThisVehicle = false;
@@ -126,7 +126,8 @@ namespace DLS.Threads
                                     else
                                     {
                                         Lights.MoveUpStageTA(activeVehicle);
-                                    }                                    
+                                    }*/
+                                    Lights.MoveUpStageTA(activeVehicle);
                                 }
                                 // Toggle Aux Siren
                                 if(Controls.IsDisabledControlJustReleased(0, (GameControl)Settings.CON_AUXSIREN))

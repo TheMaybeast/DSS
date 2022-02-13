@@ -29,6 +29,7 @@ namespace DLS
         public List<LightStage> AvailableLightStages { get; set; }
 
         public List<SirenStage> AvailableSirenStages { get; set; }
+        public List<TAStage> AvailableTAStages { get; set; }
         public bool WailSetupEnabled { get; set; }
         public SirenStage WailSirenStage { get; set; }
         public LightStage WailLightStage { get; set; }
@@ -64,27 +65,13 @@ namespace DLS
         [XmlElement("Sirens")]
         public string Sirens { get; set; } = "";
 
-        // Will be deprecated in DLS v2.0, utilize Sirens instead.
-        [XmlElement("L")]
-        public string l;
-
-        [XmlElement("EL")]
-        public string el;
-
-        [XmlElement("CL")]
-        public string cl;
-
-        [XmlElement("C")]
-        public string c;
-
-        [XmlElement("CR")]
-        public string cr;
-
-        [XmlElement("ER")]
-        public string er;
-
-        [XmlElement("R")]
-        public string r;
+        public string l { get; set; }
+        public string el { get; set; }
+        public string cl { get; set; }
+        public string c { get; set; }
+        public string cr { get; set; }
+        public string er { get; set; }
+        public string r { get; set; }
     }
 
     public class SirenColor
