@@ -79,6 +79,9 @@ namespace DLS
             "Loading: DLS - Cleanup Manager".ToLog();
             GameFiber.StartNew(delegate { Threads.CleanupManager.Process(); }, "DLS - Cleanup Manager");
             "Loaded: DLS - Cleanup Manager".ToLog();
+
+            if (Settings.SET_UIENABLED)
+                GameFiber.StartNew(delegate { Threads.UIManager.Process(); }, "DLS - UI Manager");
         }
 
         private static void OnUnload(bool isTerminating)

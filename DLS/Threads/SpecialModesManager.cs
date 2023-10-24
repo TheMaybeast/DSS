@@ -19,13 +19,14 @@ namespace DLS.Threads
                 foreach (ActiveVehicle activeVeh in Entrypoint.activeVehicles)
                 {
                     Vehicle veh = activeVeh.Vehicle;
-                    if (veh && veh.IsPlayerVehicle())
+                    DLSModel dlsModel;
+                    if (veh)
+                        dlsModel = veh.GetDLS();
+                    else
+                        dlsModel = null;
+
+                    if (veh && veh.IsPlayerVehicle() && dlsModel != null)
                     {
-                        DLSModel dlsModel;
-                        if (veh)
-                            dlsModel = veh.GetDLS();
-                        else
-                            dlsModel = null;
                         if (activeVeh.LightStage != LightStage.Off && !veh.HasDriver && !activeVeh.IsOOV)
                         {
                             if (!veh.IsEngineOn)

@@ -49,6 +49,8 @@ namespace DLS
         public Vehicle Vehicle { get; set; }
         public LightStage LightStage { get; set; }
         public string TAType { get; set; } = "off";
+        public bool Blackout { get; set; } = false;
+        public bool InteriorLight { get; set; } = false;
         public SirenStage SirenStage { get; set; }
         public TAStage TAStage { get; set; } = TAStage.Off;
         public bool SBOn { get; set; } = false;

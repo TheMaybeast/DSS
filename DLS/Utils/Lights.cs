@@ -22,8 +22,7 @@ namespace DLS.Utils
                         activeVeh.AuxOn = false;
                     }                    
                     if (activeVeh.AutoStartedTA)
-                        activeVeh.TAStage = TAStage.Off;                    
-                    //activeVeh.SBOn = false;
+                        activeVeh.TAStage = TAStage.Off;
                     activeVeh.Vehicle.EmergencyLightingOverride = Vehicles.GetEL(activeVeh.Vehicle);
                     Sirens.Update(activeVeh);
                     UpdateTA(false, activeVeh);
@@ -334,12 +333,14 @@ namespace DLS.Utils
         {
             NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
             activeVeh.LightStage = activeVeh.Vehicle.GetDLS().AvailableLightStages.Next(activeVeh.LightStage);
+            if (activeVeh.Blackout) { activeVeh.Blackout = false; NativeFunction.Natives.SET_VEHICLE_LIGHTS(activeVeh.Vehicle, 0); }
             Update(activeVeh);
         }
         public static void MoveDownStage(ActiveVehicle activeVeh)
         {
             NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
             activeVeh.LightStage = activeVeh.Vehicle.GetDLS().AvailableLightStages.Previous(activeVeh.LightStage);
+            if (activeVeh.Blackout) { activeVeh.Blackout = false; NativeFunction.Natives.SET_VEHICLE_LIGHTS(activeVeh.Vehicle, 0); }
             Update(activeVeh);
         }
         public static void MoveUpStageTA(ActiveVehicle activeVeh)
@@ -347,6 +348,7 @@ namespace DLS.Utils
             NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
             activeVeh.TAStage = activeVeh.Vehicle.GetDLS().AvailableTAStages.Next(activeVeh.TAStage);
             activeVeh.AutoStartedTA = false;
+            if (activeVeh.Blackout) { activeVeh.Blackout = false; NativeFunction.Natives.SET_VEHICLE_LIGHTS(activeVeh.Vehicle, 0); }
             Update(activeVeh);
         }
         public static void UpdateIndicator(ActiveVehicle activeVeh)

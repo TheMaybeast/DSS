@@ -72,7 +72,12 @@
     <Compile Include="Threads\PlayerController.cs" />
     <Compile Include="DLSModel.cs" />
     <Compile Include="Threads\SpecialModesManager.cs" />
+    <Compile Include="Threads\UIManager.cs" />
     <Compile Include="TrafficAdvisory.cs" />
+    <Compile Include="UI\CustomUI.cs" />
+    <Compile Include="UI\Importer.cs" />
+    <Compile Include="UI\Resources.cs" />
+    <Compile Include="UI\Sprite.cs" />
     <Compile Include="Utils\Controls.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\Lights.cs" />
@@ -91,6 +96,231 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3_c_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3_c_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3_l_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3_l_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3_r_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3_r_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_cl_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_cl_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_cr_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_cr_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_l_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_l_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_r_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4_r_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_c_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_c_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_cl_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_cl_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_cr_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_cr_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_l_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_l_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_r_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\5_r_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_cl_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_cl_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_cr_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_cr_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_el_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_el_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_er_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_er_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_l_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_l_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_r_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\6_r_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blkt_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blkt_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ext1_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ext1_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ext2_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ext2_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hazard_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hazard_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\horn_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\horn_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\intlt_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\intlt_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lind_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lind_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manual_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\manual_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rind_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rind_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s1_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s1_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s2_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s2_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s3_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\s3_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sb_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sb_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tadiv_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tadiv_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taleft_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taleft_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taright_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\taright_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tawarn_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tawarn_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wail_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wail_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yelp_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\yelp_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
