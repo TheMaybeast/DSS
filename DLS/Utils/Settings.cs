@@ -32,7 +32,7 @@ namespace DLS.Utils
         public static bool SET_SIRENKILL { get; } = INI.ReadBoolean("Settings", "SirenKill", true);
         public static bool SET_LOGTOCONSOLE { get; } = INI.ReadBoolean("Settings", "LogToConsole", false);
         public static string SET_AUDIONAME { get; } = INI.ReadString("Settings", "AudioName", "TOGGLE_ON");
-        public static string SET_AUDIOREF { get; } = INI.ReadString("Settings", "AudioRef", Settings.SET_AUDIOREF);
+        public static string SET_AUDIOREF { get; } = INI.ReadString("Settings", "AudioRef", "HUD_FRONTEND_DEFAULT_SOUNDSET");
 
         // UI
         public static int UI_WIDTH { get; } = INI.ReadInt32("UI", "Width", 550);
