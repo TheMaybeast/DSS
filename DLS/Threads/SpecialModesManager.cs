@@ -27,7 +27,7 @@ namespace DLS.Threads
 
                     if (veh && veh.IsPlayerVehicle() && dlsModel != null)
                     {
-                        if (activeVeh.LightStage != LightStage.Off && !veh.HasDriver && !activeVeh.IsOOV)
+                        if (activeVeh.LightStage != LightStage.Off && !veh.HasDriver && !activeVeh.IsOOV && dlsModel.SpecialModes.PresetSirenOnLeaveVehicle != "none")
                         {
                             if (!veh.IsEngineOn)
                                 veh.IsEngineOn = true;

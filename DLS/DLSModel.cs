@@ -194,7 +194,7 @@ namespace DLS
         public string SirenUI { get; set; }
 
         [XmlElement("PresetSirenOnLeaveVehicle")]
-        public string PresetSirenOnLeaveVehicle { get; set; }
+        public string PresetSirenOnLeaveVehicle { get; set; } = "none";
 
         [XmlElement("StageOrder")]
         public string StageOrder { get; set; } = "";
