@@ -2,9 +2,9 @@
 
 namespace DSS
 {
-    public class ActiveVehicle
+    public class ManagedVehicle
     {
-        public ActiveVehicle(Vehicle vehicle, bool lightsOn = false)
+        public ManagedVehicle(Vehicle vehicle, bool lightsOn = false)
         {
             Vehicle = vehicle;
             LightsOn = lightsOn;

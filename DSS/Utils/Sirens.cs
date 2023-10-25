@@ -11,7 +11,7 @@ namespace DSS.Utils
     internal static class Sirens
     {
         private static readonly List<SirenStage> defaultSirenStages = new List<SirenStage> { SirenStage.One, SirenStage.Two, SirenStage.Warning };
-        public static void Update(ActiveVehicle activeVeh)
+        public static void Update(ManagedVehicle activeVeh)
         {
             switch (activeVeh.SirenStage)
             {
@@ -49,7 +49,7 @@ namespace DSS.Utils
                     break;
             }
         }
-        public static void MoveUpStage(ActiveVehicle activeVeh)
+        public static void MoveUpStage(ManagedVehicle activeVeh)
         {
             NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
             if (activeVeh.SoundSet == null)
@@ -58,7 +58,7 @@ namespace DSS.Utils
                 activeVeh.SirenStage = activeVeh.SoundSet.AvailableSirenStages.Next(activeVeh.SirenStage);
             Update(activeVeh);
         }
-        public static void MoveDownStage(ActiveVehicle activeVeh)
+        public static void MoveDownStage(ManagedVehicle activeVeh)
         {
             NativeFunction.Natives.PLAY_SOUND_FRONTEND(-1, Settings.SET_AUDIONAME, Settings.SET_AUDIOREF, true);
             if (activeVeh.SoundSet == null)
@@ -67,7 +67,7 @@ namespace DSS.Utils
                 activeVeh.SirenStage = activeVeh.SoundSet.AvailableSirenStages.Previous(activeVeh.SirenStage);
             Update(activeVeh);
         }
-        public static void SetAirManuState(ActiveVehicle activeVeh, int? newState)
+        public static void SetAirManuState(ManagedVehicle activeVeh, int? newState)
         {
             if(newState != activeVeh.AirManuState)
             {

@@ -4,7 +4,7 @@ namespace DSS.Utils
 {
     class Sound
     {
-        public static int NewSoundID(ActiveVehicle activeVeh)
+        public static int NewSoundID(ManagedVehicle activeVeh)
         {
             if (activeVeh.SoundId != 999)
             {

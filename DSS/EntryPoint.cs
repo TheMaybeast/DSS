@@ -13,7 +13,7 @@ namespace DSS
     internal class Entrypoint
     {
         //Vehicles currently being managed by DSS
-        public static List<ActiveVehicle> activeVehicles = new List<ActiveVehicle>();
+        public static List<ManagedVehicle> activeVehicles = new List<ManagedVehicle>();
         //List of used Sound IDs
         public static List<int> UsedSoundIDs = new List<int>();
         // List of Siren Sets
@@ -72,7 +72,7 @@ namespace DSS
             if (activeVehicles.Count > 0)
             {
                 "Refreshing vehicle's default EL".ToLog();
-                foreach (ActiveVehicle aVeh in activeVehicles)
+                foreach (ManagedVehicle aVeh in activeVehicles)
                 {
                     if (aVeh.Vehicle)
                     {

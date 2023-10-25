@@ -7,7 +7,7 @@ namespace DSS.Utils
 {
     internal static class Extensions
     {
-        internal static ActiveVehicle GetActiveVehicle(this Vehicle veh)
+        internal static ManagedVehicle GetActiveVehicle(this Vehicle veh)
         {
             if (!veh)
                 return null;
@@ -16,11 +16,11 @@ namespace DSS.Utils
                 if (Entrypoint.activeVehicles[i].Vehicle == veh)
                     return Entrypoint.activeVehicles[i];
             }
-            ActiveVehicle aVeh;
+            ManagedVehicle aVeh;
             if (veh.IsSirenOn)
-                aVeh = new ActiveVehicle(veh, true);
+                aVeh = new ManagedVehicle(veh, true);
             else
-                aVeh = new ActiveVehicle(veh);
+                aVeh = new ManagedVehicle(veh);
             if(aVeh != null) Entrypoint.activeVehicles.Add(aVeh);
             return aVeh;
         }

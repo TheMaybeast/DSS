@@ -4,7 +4,7 @@ namespace DSS.Utils
 {
     class Lights
     {
-        public static void UpdateIndicator(ActiveVehicle activeVeh)
+        public static void UpdateIndicator(ManagedVehicle activeVeh)
         {
             switch (activeVeh.IndStatus)
             {

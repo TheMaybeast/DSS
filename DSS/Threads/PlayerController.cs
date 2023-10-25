@@ -7,7 +7,7 @@ namespace DSS.Threads
     class PlayerController
     {
         private static Vehicle prevVehicle;
-        private static ActiveVehicle activeVehicle;
+        private static ManagedVehicle activeVehicle;
         public static bool actv_manu;
         public static bool actv_horn;
 
