@@ -43,9 +43,6 @@ namespace DSS
             AssemblyName pluginInfo = Assembly.GetExecutingAssembly().GetName();
             Game.LogTrivial($"LOADED DSS v{pluginInfo.Version}");
 
-            //Loads MPDATA audio
-            NativeFunction.Natives.SET_AUDIO_FLAG("LoadMPData", true);
-
             //Loads SirenSets
             SirenSets = Sirens.GetSirenSets();
 
