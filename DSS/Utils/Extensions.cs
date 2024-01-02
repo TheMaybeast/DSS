@@ -7,22 +7,19 @@ namespace DSS.Utils
 {
     internal static class Extensions
     {
-        internal static ManagedVehicle GetActiveVehicle(this Vehicle veh)
+        internal static ManagedVehicle GetManagedVehicle(this Vehicle veh)
         {
-            if (!veh)
-                return null;
-            for (int i = 0; i < Entrypoint.activeVehicles.Count; i++)
+            if (!veh) return null;
+
+            foreach (var managedVehicle in EntryPoint.ManagedVehicles)
             {
-                if (Entrypoint.activeVehicles[i].Vehicle == veh)
-                    return Entrypoint.activeVehicles[i];
+                if (managedVehicle.Vehicle == veh)
+                    return managedVehicle;
             }
-            ManagedVehicle aVeh;
-            if (veh.IsSirenOn)
-                aVeh = new ManagedVehicle(veh, true);
-            else
-                aVeh = new ManagedVehicle(veh);
-            if(aVeh != null) Entrypoint.activeVehicles.Add(aVeh);
-            return aVeh;
+
+            var mVeh = veh.IsSirenOn ? new ManagedVehicle(veh, true) : new ManagedVehicle(veh);
+            EntryPoint.ManagedVehicles.Add(mVeh);
+            return mVeh;
         }
         internal static void ToLog(this string log)
         {

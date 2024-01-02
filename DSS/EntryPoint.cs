@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-[assembly: Plugin("Dynamic Siren System", Description = "Lightweight Siren Control", Author = "TheMaybeast", PrefersSingleInstance = true, ShouldTickInPauseMenu = true, SupportUrl = "https://discord.gg/HUcXxkq")]
+[assembly: Plugin("Dynamic Siren System", Description = "Lightweight Siren Control", Author = "TheMaybeast", PrefersSingleInstance = true, ShouldTickInPauseMenu = false, SupportUrl = "https://discord.gg/HUcXxkq")]
 namespace DSS
 {
-    internal class Entrypoint
+    internal class EntryPoint
     {
         //Vehicles currently being managed by DSS
-        public static List<ManagedVehicle> activeVehicles = new List<ManagedVehicle>();
+        public static List<ManagedVehicle> ManagedVehicles = new List<ManagedVehicle>();
         //List of used Sound IDs
         public static List<int> UsedSoundIDs = new List<int>();
         // List of Siren Sets
@@ -25,7 +25,7 @@ namespace DSS
         public static void Main()
         {
             //Initiates Log File
-            Log Log = new Log();
+            _ = new Log();
 
             // Checks if .ini file is created.
             Settings.IniCheck();
@@ -48,7 +48,7 @@ namespace DSS
 
             //Creates player controller
             "Loading: DSS - Player Controller".ToLog();
-            GameFiber.StartNew(delegate { PlayerController.MainLoop(); }, "DSS - Player Controller");
+            GameFiber.StartNew(PlayerController.MainLoop, "DSS - Player Controller");
             "Loaded: DSS - Player Controller".ToLog();
         }
 
@@ -66,17 +66,17 @@ namespace DSS
                 }
                 "Unloaded all used SoundIDs".ToLog();
             }
-            if (activeVehicles.Count > 0)
+            if (ManagedVehicles.Count > 0)
             {
                 "Refreshing vehicle's default EL".ToLog();
-                foreach (ManagedVehicle aVeh in activeVehicles)
+                foreach (ManagedVehicle mVeh in ManagedVehicles)
                 {
-                    if (aVeh.Vehicle)
+                    if (mVeh.Vehicle)
                     {
-                        aVeh.Vehicle.IsSirenOn = false;
-                        aVeh.Vehicle.IsSirenSilent = false;
-                        aVeh.Vehicle.IndicatorLightsStatus = VehicleIndicatorLightsStatus.Off;
-                        ("Refreshed " + aVeh.Vehicle.Handle).ToLog();
+                        mVeh.Vehicle.IsSirenOn = false;
+                        mVeh.Vehicle.IsSirenSilent = false;
+                        mVeh.Vehicle.IndicatorLightsStatus = VehicleIndicatorLightsStatus.Off;
+                        ("Refreshed " + mVeh.Vehicle.Handle).ToLog();
                     }
                     else
                         ("Vehicle does not exist anymore!").ToLog();

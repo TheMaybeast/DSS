@@ -10,17 +10,14 @@ namespace DSS
             LightsOn = lightsOn;
             SirenStage = SirenStage.Off;
 
-            if (Entrypoint.SirenSets.ContainsKey(vehicle.Model.Name.ToLower()))
-                SoundSet = Entrypoint.SirenSets[vehicle.Model.Name.ToLower()];
-            else
-                SoundSet = null;
+            SoundSet = EntryPoint.SirenSets.ContainsKey(vehicle.Model.Name.ToLower())
+                ? EntryPoint.SirenSets[vehicle.Model.Name.ToLower()]
+                : null;
 
-            if (vehicle)
-            {
-                bool temp = vehicle.IsSirenOn;
-                vehicle.IsSirenOn = false;
-                vehicle.IsSirenOn = temp;
-            }
+            if (!vehicle) return;
+            bool temp = vehicle.IsSirenOn;
+            vehicle.IsSirenOn = false;
+            vehicle.IsSirenOn = temp;
         }
 
         // General
@@ -31,7 +28,7 @@ namespace DSS
         public bool LightsOn { get; set; } = false;
         public bool Blackout { get; set; } = false;
         public bool InteriorLight { get; set; } = false;
-        public IndStatus IndStatus { get; set; } = IndStatus.Off;
+        public VehicleIndicatorLightsStatus IndStatus { get; set; } = VehicleIndicatorLightsStatus.Off;
 
         // Sirens
         public SoundSet SoundSet { get; set; }

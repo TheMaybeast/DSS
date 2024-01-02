@@ -10,18 +10,18 @@ namespace DSS.Utils
             {
                 NativeFunction.Natives.STOP_SOUND(activeVeh.SoundId);
                 NativeFunction.Natives.RELEASE_SOUND_ID(activeVeh.SoundId);
-                Entrypoint.UsedSoundIDs.Remove(activeVeh.SoundId);
+                EntryPoint.UsedSoundIDs.Remove(activeVeh.SoundId);
             }
             int newID = NativeFunction.Natives.GET_SOUND_ID<int>();
             activeVeh.SoundId = newID;
-            Entrypoint.UsedSoundIDs.Add(newID);
+            EntryPoint.UsedSoundIDs.Add(newID);
             return newID;
         }
 
         public static int TempSoundID()
         {
             int newID = NativeFunction.Natives.GET_SOUND_ID<int>();
-            Entrypoint.UsedSoundIDs.Add(newID);
+            EntryPoint.UsedSoundIDs.Add(newID);
             return newID;
         }
 
@@ -29,7 +29,7 @@ namespace DSS.Utils
         {
             NativeFunction.Natives.STOP_SOUND(id);
             NativeFunction.Natives.RELEASE_SOUND_ID(id);
-            Entrypoint.UsedSoundIDs.Remove(id);
+            EntryPoint.UsedSoundIDs.Remove(id);
         }
     }
 }
